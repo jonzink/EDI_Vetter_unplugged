@@ -1,4 +1,5 @@
-![Logo](www.jonzink.com/images/ediweb.png)
+<img src="http://jonzink.com/images/ediweb.png">
+
 # EDI-Vetter Unplugged
 This software identifies false positive transit signals using [TLS](https://github.com/hippke/tls) information and has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with the [TLS](https://github.com/hippke/tls) output.
 
