@@ -95,7 +95,7 @@ Alternatively, you can enter information about a potential contaminating star by
 >>> params=EDI.Go(params, delta_mag=10, delta_dist=1000, photoAp=25, telescope="TESS")
 
 ```
-It is important to note this is not the Full EDI-Vetter suite of vetting metrics, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter unplugged is likely to have a higher completeness, but a lower reliability when compared to the original algorithm. 
+It is important to note this is not the Full EDI-Vetter suite of vetting metrics, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter Unplugged is likely to have a higher completeness, but a lower reliability when compared to the original algorithm. 
 
 ## Attribution
 Please cite as [Zink et al. (2020a)](https://ui.adsabs.harvard.edu/abs/2020AJ....159..154Z/abstract).
