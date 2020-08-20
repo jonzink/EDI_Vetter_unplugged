@@ -1,5 +1,5 @@
 # EDI-Vetter Unplugged
-This is a program meant to identify false positive transit signals using TLS information. This program has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with TLS.
+This is a program meant to identify false positive transit signals using [TLS](https://github.com/hippke/tls) information. This program has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with [TLS](https://github.com/hippke/tls) .
 
 <a href="https://zenodo.org/badge/latestdoi/200920137"><img src="https://zenodo.org/badge/200920137.svg" alt="DOI"></a>   
 
@@ -32,21 +32,21 @@ Run the light curve file through TLS
 >>> model = transitleastsquares(Time, Flux)
 >>> tlsOut = model.power()
 ```
-Now you can set up the EDI-Vetter Unplugged parameters object with the TLS output object. For a quick start you can enter:
+Now you can set up the EDI-Vetter Unplugged parameters object with the TLS output object. For a quick-start you can enter:
 ```
 >>> params=EDI.parameters(tlsOut)
 ```
-For a more detailed analysis you can provide additional information about your search:
+For a more detailed analysis, you can provide additional information about your search:
 ```
 >>> params=EDI.parameters(tlsOut, limbDark=[0.48, 0.19], impact=0, snrThreshold=7, minTransit=3)
 ```
-Here you can enter quadratic limb darkening values, the transit impact parameter, your desired SNR threshold, and/or the minimum number of transits considered for a valid detection. The default values have been listed in the example.
+Here you have the option to provide the quadratic limb darkening values, the transit impact parameter, the desired SNR threshold, and/or the minimum number of transits considered for a valid detection. The default values have been listed in the example above.
 
 Now you can run all of the vetting metrics on the signal
 ```
 >>> params=EDI.Go(params)
 ```
-Once completed, EDI-Vetter unplugged will print out a vetting report:
+Once completed, EDI-Vetter Unplugged will print out a vetting report:
 ```
  ___________ _____      _   _      _   _            
 |  ___|  _  \_   _|    | | | |    | | | |           
@@ -68,7 +68,7 @@ Transit Duration Too Large : False
 ==========================================
 Signal is a False Positive : True
 ```
-In this case, the signal was not unique with the light curve and is likely to be a false positive. Additionally, the number of meaningful transits fell below the defined threshold.
+In this case, the signal was not unique within the light curve and is likely a false positive. Additionally, the number of meaningful transits fell below the desired threshold.
 
 | Output | Description |
 | --- | --- |
@@ -82,7 +82,7 @@ In this case, the signal was not unique with the light curve and is likely to be
 | `FalsePositive` | Overall, does the signal appear to be a false positive? |
 
 
- You can access the suggested classification from EDI-Vetter Unplugged by using 
+ You can access the suggested classification from EDI-Vetter Unplugged using the "params" output object:
 ```
 >>> print(params.FalsePositive)
 True
@@ -95,4 +95,4 @@ Alternatively, you can enter information about a potential contaminating star by
 >>> params=EDI.Go(params, delta_mag=10, delta_dist=1000, photoAp=25, telescope="TESS")
 
 ```
-It is important to note this is not the Full EDI-Vetter suite of vetting metric, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter unplugged is likely to have a high completeness, but a lower detection reliability.
+It is important to note this is not the Full EDI-Vetter suite of vetting metrics, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter unplugged is likely to have a higher completeness, but a lower reliability when compared to the original algorithm. 
