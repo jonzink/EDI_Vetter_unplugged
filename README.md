@@ -41,6 +41,6 @@ Now you can set up the EDI-Vetter unplugged parameters object with the TLS outpu
 Here you can enter quadratic limb darkening values, the transit impact parameter, your desired SNR threshold, and/or the minimum number of transits to be considered valid. The default values have been listed in the example.
 Now you can run all of the vetting metrics on the signal
 ```
->>> params=EDI_Vetter_unplugged.Go(params,delta_mag=10,delta_dist=1000, photoAp=41)
+>>> params=EDI_Vetter_unplugged.Go(params, delta_mag=10, delta_dist=1000, photoAp=41)
 ```
 You can enter a potential contaminating star by indicating the photometric aperture size in pixels ("photoAp"), the separation in arcseconds ("delta_dist"), and the visual magnitude of the contaminating source ("delta_mag"). Note: Kepler pixels are assumed here. You do not need to enter any of these parameters if you are not concerned about flux contamination.
