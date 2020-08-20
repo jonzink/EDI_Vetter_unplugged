@@ -1,5 +1,5 @@
 # EDI-Vetter Unplugged
-This is a program meant to identify false positive transit signals using [TLS](https://github.com/hippke/tls) information. This program has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with [TLS](https://github.com/hippke/tls) .
+This software identifies false positive transit signals using [TLS](https://github.com/hippke/tls) information and has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with the [TLS](https://github.com/hippke/tls) output.
 
 <a href="https://zenodo.org/badge/latestdoi/200920137"><img src="https://zenodo.org/badge/200920137.svg" alt="DOI"></a>   
 
@@ -95,4 +95,32 @@ Alternatively, you can enter information about a potential contaminating star by
 >>> params=EDI.Go(params, delta_mag=10, delta_dist=1000, photoAp=25, telescope="TESS")
 
 ```
-It is important to note this is not the Full EDI-Vetter suite of vetting metrics, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter unplugged is likely to have a higher completeness, but a lower reliability when compared to the original algorithm. 
+It is important to note this is not the Full EDI-Vetter suite of vetting metrics, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter Unplugged is likely to have a higher completeness, but a lower reliability when compared to the original algorithm. 
+
+## Attribution
+Please cite as [Zink et al. (2020a)](https://ui.adsabs.harvard.edu/abs/2020AJ....159..154Z/abstract).
+```
+
+@ARTICLE{2020AJ....159..154Z,
+       author = {{Zink}, Jon K. and {Hardegree-Ullman}, Kevin K. and
+         {Christiansen}, Jessie L. and {Dressing}, Courtney D. and
+         {Crossfield}, Ian J.~M. and {Petigura}, Erik A. and
+         {Schlieder}, Joshua E. and {Ciardi}, David R.},
+        title = "{Scaling K2. II. Assembly of a Fully Automated C5 Planet Candidate Catalog Using EDI-Vetter}",
+      journal = {\aj},
+     keywords = {Astrophysics - Earth and Planetary Astrophysics, Astrophysics - Instrumentation and Methods for Astrophysics},
+         year = 2020,
+        month = apr,
+       volume = {159},
+       number = {4},
+          eid = {154},
+        pages = {154},
+          doi = {10.3847/1538-3881/ab7448},
+archivePrefix = {arXiv},
+       eprint = {2001.11515},
+ primaryClass = {astro-ph.EP},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2020AJ....159..154Z},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+```
