@@ -21,39 +21,27 @@ class parameters:
     Args:
 
         
-        per (Required[float]): best estimate of transit period in units
-            of days.
+        tlsOut (Required[object]): output from TLS transit search
         
-        t0 (Required[float]): best estimate of transit mid-point in units
-             of days.
-        
-        tdur (Required[float]): best estimate of transit duration in units
-             of days.
-        
-        radRatio (Optional[float]): best estimate of the planet to star 
-            radius ratio.
-        
-        radStar (Optional[float]): radius of the stellar host in solar units.
-    
-        uradStar (Optional[float]): uncertainty of stellar host radius in solar
-            units.
-        
-        massStar (Optional[float]): mass of stellar host in solar units.
-        
-        umassStar (Optional[float]): uncertainty of stellar host mass in solar
-            units.
-    
+
         limbDark (Optional[array]): array of the two quadratic limb darkening 
             parameters for the stellar host
+        
+        impact (Optional[float]): float representing the impact parameter of
+            the transit search
+    
+        snrThreshold (Optional[float]): float representing SNR threshold limit
+            required for detection
+        
+        minTransit (Optional[int]): number of transit required for detection 
     
 
     Example:
     
         # Working with the parameters
     
-        >>> params=EDI_Vetter.paramaters(per=8.261, t0=2907.645, tdur=.128, lc=lc)
-        >>> params=EDI_Vetter.MCfit(params)
-        >>> params=EDI_Vetter.Go(params,delta_mag=2.7, delta_dist=1000, photoAp=25)
+        >>> params=EDI_Vetter.paramaters(tlsOut, limbDark=[0.48, 0.19], impact=0, snrThreshold=7, minTransit=3)
+        >>> params=EDI_Vetter.Go(params, delta_mag=2.7, delta_dist=1000, photoAp=25, telescope="Kepler")
 
     """
     
@@ -61,15 +49,7 @@ class parameters:
     
     def __init__(self, tlsOut,limbDark=None, impact=None, snrThreshold=7, minTransit=3):
     
-    # per=None,t0=None,tdur=None,radRatio=None, radStar=None, uradStar=.1, massStar=None, umassStar=.1, limbDark=None):
         super(parameters,self).__init__()
-        # self.lc=lc
-        #
-        # for col in self.lc_required_columns:
-        #     assert list(lc.columns).index(col) >= 0, \
-        #         "light curve lc must contain {}".format(col)
-        
-        #Transit Parameters in units of days (Required)
         self.tlsOut=tlsOut
         self.impact=impact
         self.limbDark=limbDark
@@ -103,7 +83,10 @@ def Go(params,delta_mag=float("Inf"),delta_dist=float("Inf"), photoAp=1, telesco
         delta_dist (optional[float]): distance between the target star and the
              potential contaminate source in arc-seconds
         
-        photoAp (optional[int]): number of pixels used for the target aperture.
+        photoAp (optional[int]): number of pixels used for the target aperture
+    
+        telescope (optional[string]): name of telescope data was collected from 
+            (i.e. "Kepler", "K2", or "TESS")
     
     Output:
         params : the modified transit parameters needed to assess
@@ -130,12 +113,12 @@ def Go(params,delta_mag=float("Inf"),delta_dist=float("Inf"), photoAp=1, telesco
         ############# Exoplanet Detection Indicator - Vetter ######
 
     print("""
-     ___________ _____      _   _      _   _            
-    |  ___|  _  \_   _|    | | | |    | | | |           
-    | |__ | | | | | |______| | | | ___| |_| |_ ___ _ __ 
-    |  __|| | | | | |______| | | |/ _ \ __| __/ _ \ '__|
-    | |___| |/ / _| |_     \ \_/ /  __/ |_| ||  __/ |   
-    \____/|___/  \___/      \___/ \___|\__|\__\___|_|   Unplugged
+ ___________ _____      _   _      _   _            
+|  ___|  _  \_   _|    | | | |    | | | |           
+| |__ | | | | | |______| | | | ___| |_| |_ ___ _ __ 
+|  __|| | | | | |______| | | |/ _ \ __| __/ _ \ '__|
+| |___| |/ / _| |_     \ \_/ /  __/ |_| ||  __/ |   
+\____/|___/  \___/      \___/ \___|\__|\__\___|_|   Unplugged
     """)
 
     params=fluxContamination(params,delta_mag,delta_dist, photoAp,pxScale)
