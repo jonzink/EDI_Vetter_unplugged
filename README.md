@@ -16,7 +16,7 @@ EDI-Vetter Unplugged is meant to utilize the output provided by the [TLS](https:
 
 ### Installation
 
-EDI-Vetter Unplugged can now be easily install via pip
+EDI-Vetter Unplugged can now be easily installed via pip
 
 ```
 $ pip install EDIunplugged
