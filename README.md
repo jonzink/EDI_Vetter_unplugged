@@ -1,6 +1,4 @@
-<img src="http://jonzink.com/images/ediWhite2.png">
-
-
+# EDI-Vetter Unplugged
 This software identifies false positive transit signals using [TLS](https://github.com/hippke/tls) information and has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with the [TLS](https://github.com/hippke/tls) output.
 
 <a href="https://zenodo.org/badge/latestdoi/200920137"><img src="https://zenodo.org/badge/200920137.svg" alt="DOI"></a>   
@@ -16,15 +14,19 @@ Several python packages are required to run this software. Here are a few:  TLS,
 EDI-Vetter Unplugged is meant to utilize the output provided by the [TLS](https://github.com/hippke/tls) software package. We remind users to cite both packages appropriately.  
 
 
+### Installation
+
+EDI-Vetter Unplugged can now be easily install via pip
+
+```
+$ pip install EDIunplugged
+```
+
 ## Running EDI-Vetter Unplugged in Python
 
 Here we provide a quick example.
 
-Begin by opening Python in the appropriate directory. 
-```
-$ python
-```
-Now import the necessary packages
+Begin by importing the necessary packages in to Python
 ```
 >>> import EDIunplugged as EDI
 >>> import transitleastsquares
