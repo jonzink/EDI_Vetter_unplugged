@@ -103,11 +103,13 @@ def individual_transits(params):
     snr=params.tlsOut.snr
     nTrOG=nTr
     sEStot=0
+    sESReal=np.zeros(len(sES))
     for i in range((nTrOG)):
         if .6*np.median(countTrans)>=countTrans[i]:
             nTr=nTr-1
         else:    
             sEStot=sEStot+sES[i]**2
+            sESReal[i]=sES[i]
 
             
     if nTr<params.minTransit:
@@ -115,7 +117,7 @@ def individual_transits(params):
     else:
         params.TransMaskFP=False
 
-    if (np.max(sES))>=(0.8*snr):
+    if (np.max(sESReal))>=(0.8*np.sqrt(3/params.minTransit)*np.sqrt(sEStot)):
         params.TransMaskFP=True
     else:
         pass

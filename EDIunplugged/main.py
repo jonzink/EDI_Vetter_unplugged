@@ -145,7 +145,7 @@ def Go(params,delta_mag=float("Inf"),delta_dist=float("Inf"), photoAp=1, telesco
     # print(" Transit Mid-point Slipped : " + str(params.eph_slipFP))
     # print("     Strong Harmonic Found : " + str(params.harmonicFP))
     print("Low Transit Phase Coverage : " + str(params.phaseCoverFP) )
-    print("Transit Duration Too Large : " + str(params.tdurFP))
+    print(" Transit Duration Too Long : " + str(params.tdurFP))
     print("==========================================") 
     print("Signal is a False Positive : "+  str(params.FalsePositive))
              
