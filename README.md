@@ -69,7 +69,7 @@ Odd/Even Transit Variation : False
       Signal is not Unique : True
    Secondary Eclipse Found : False
 Low Transit Phase Coverage : False
-Transit Duration Too Large : False
+ Transit Duration Too Long : False
 ==========================================
 Signal is a False Positive : True
 ```
