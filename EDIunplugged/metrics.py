@@ -134,7 +134,7 @@ def even_odd_transit(params):
     
     eoSig=params.tlsOut.odd_even_mismatch
         
-    if params.tlsOut.transit_count>5:
+    if eoSig>5:
         params.even_odd_transit_misfit=True          
     else:
         params.even_odd_transit_misfit=False
@@ -152,30 +152,32 @@ def uniqueness_test(params):
     #remove SE
     foldYnoSE=foldY[(foldX>tdur/per/2) | (foldX<1-tdur/per/2)]
     foldXnoSE=foldX[(foldX>tdur/per/2) | (foldX<1-tdur/per/2)]
-    #remvoe singal
+    #remvoe signal
     foldYnoSE=foldYnoSE[(foldXnoSE<.5-tdur/per/2) | (foldXnoSE>.5+tdur/per/2)]
     foldXnoSE=foldXnoSE[(foldXnoSE<.5-tdur/per/2) | (foldXnoSE>.5+tdur/per/2)]
 
-    signalTrue=np.mean(foldY[(foldX>=.5-tdur/per/2) & (foldX<=.5+tdur/per/2)])
+    signalTrue=1-np.mean(foldY[(foldX>=.5-tdur/per/2) & (foldX<=.5+tdur/per/2)])
     signal=np.zeros(len(foldYnoSE))
     
     for i in range(len(foldYnoSE)):
-        if foldX[i]<tdur/per:
-            signal[i]=np.mean(foldYnoSE[(foldXnoSE<foldXnoSE[i]+tdur/per/2)])
+        if foldX[i]<tdur/per/2:
+            signal[i]=np.median(foldYnoSE)
+        elif foldX[i]>(np.max(foldXnoSE)-tdur/per/2):
+            signal[i]=np.median(foldYnoSE)
         else:    
             signal[i]=np.mean(foldYnoSE[(foldXnoSE>=foldXnoSE[i]-tdur/per/2) & (foldXnoSE<=foldXnoSE[i]+tdur/per/2)])
-    
+    signal=1-signal
     falseAlarmFold=np.sqrt(2)*special.erfcinv(1/np.float(len(signal)))
-    signalMax=np.min(signal)
-    signalAvg=np.median(signal[signal>signalMax])
-    signalSD=mad_std(signal[signal>signalMax])
-    
+    signalMax=np.max(signal)
+    signalAvg=np.median(signal[signal<signalMax])
+    signalSD=mad_std(signal[signal<signalMax])
+
     if np.isnan(falseAlarm):
         params.uniquenessFP=True
-    elif signalMax<signalAvg-falseAlarmFold*signalSD:
+    elif signalTrue<signalAvg+falseAlarmFold*signalSD:
         params.uniquenessFP=True
     elif falseAlarm>thershold:
-        params.uniquenessFP=True   
+        params.uniquenessFP=True 
     else:    
         params.uniquenessFP=False
     return params
