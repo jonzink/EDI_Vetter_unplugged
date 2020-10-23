@@ -1,8 +1,15 @@
+# Created by Jon Zink  (jzink@astro.ucla.edu)
+# Developed with python 3.7.1
+#
+# If you make use of this code, please cite:
+# J. K. Zink et al. 2020a
+
+
 import numpy as np
 from astropy.stats import mad_std
 from scipy import special
 
-def fluxContamination(params,delta_mag,delta_dist, photoAp, pxScale):
+def fluxContam(params,delta_mag,delta_dist, photoAp, pxScale):
     """Flux Contamination test
     Look for transit contamination from nearby stars.
     
@@ -36,16 +43,16 @@ def fluxContamination(params,delta_mag,delta_dist, photoAp, pxScale):
     #     params.fluxContaminationFP=True
     
     if (fit_rp*np.sqrt(fTotStar) + fit_b)>1.04:
-        params.fluxContaminationFP=True
+        params.fluxContamFP=True
         
     elif (fit_rp)*np.sqrt(fTotStar)>0.3:
-        params.fluxContaminationFP=True
+        params.fluxContamFP=True
     else:
-        params.fluxContaminationFP=False
+        params.fluxContamFP=False
     
     return params
   
-def outlierTransit(params):
+def outlierTran(params):
     
     """Outlier Detection
      
@@ -75,13 +82,13 @@ def outlierTransit(params):
     noDepthsd=mad_std(foldY[(foldX<.5-tdur/per/2) | (foldX>.5+tdur/per/2)])
     
     if Depthsd>(0.4*mes-1.764)*noDepthsd:
-        params.outlierTransitFP=True
+        params.outlierTranFP=True
     else:
-        params.outlierTransitFP=False   
+        params.outlierTranFP=False   
         
     return params         
 
-def individual_transits(params):
+def transMask(params):
     
     """Individual Transit Test
      
@@ -113,36 +120,36 @@ def individual_transits(params):
 
             
     if nTr<params.minTransit:
-        params.TransMaskFP=True
+        params.transMaskFP=True
     else:
-        params.TransMaskFP=False
+        params.transMaskFP=False
 
     if (np.max(sESReal))>=(0.8*np.sqrt(3/params.minTransit)*np.sqrt(sEStot)):
-        params.TransMaskFP=True
+        params.transMaskFP=True
     else:
         pass
 
     if np.sqrt(sEStot)<params.snrThreshold:
-        params.TransMaskFP=True
+        params.transMaskFP=True
     else:
         pass                    
                 
     return params 
 
 
-def even_odd_transit(params):
+def evenOdd(params):
     
     eoSig=params.tlsOut.odd_even_mismatch
         
     if eoSig>5:
-        params.even_odd_transit_misfit=True          
+        params.evenOddFP=True          
     else:
-        params.even_odd_transit_misfit=False
+        params.evenOddFP=False
     
     return params
 
 
-def uniqueness_test(params):
+def unique(params):
     per=params.tlsOut.period
     tdur=params.tlsOut.duration
     falseAlarm=params.tlsOut.FAP
@@ -173,17 +180,17 @@ def uniqueness_test(params):
     signalSD=mad_std(signal[signal<signalMax])
 
     if np.isnan(falseAlarm):
-        params.uniquenessFP=True
+        params.uniqueFP=True
     elif signalTrue<signalAvg+falseAlarmFold*signalSD:
-        params.uniquenessFP=True
+        params.uniqueFP=True
     elif falseAlarm>thershold:
-        params.uniquenessFP=True 
+        params.uniqueFP=True 
     else:    
-        params.uniquenessFP=False
+        params.uniqueFP=False
     return params
     
 
-def check_SE(params):
+def secEclipse(params):
     per=params.tlsOut.period
     tdur=params.tlsOut.duration
     foldY=params.tlsOut.folded_y
@@ -196,21 +203,21 @@ def check_SE(params):
     if 0.1*depth<seDepth:
         if fit_b>=.9:
             params.SE_found=True
-            params.SeFP=True
+            params.secEclipseFP=True
         else:
             params.SE_found=True
-            params.SeFP=False
+            params.secEclipseFP=False
     elif seDepth>3*seDepthsd:
-        params.SeFP=False
+        params.secEclipseFP=False
         params.SE_found=True
         
     else:
-         params.SeFP=False
+         params.secEclipseFP=False
          params.SE_found=False
     return params
 
 
-def phase_coverage(params):
+def phaseCover(params):
 
     fit_P=params.tlsOut.period
     fit_t0=params.tlsOut.T0
@@ -239,7 +246,7 @@ def phase_coverage(params):
         
     return params 
 
-def tdur_max(params):
+def tranDur(params):
     fit_P=params.tlsOut.period
     fit_t0=params.tlsOut.T0
     fit_tdur=params.tlsOut.duration
@@ -247,9 +254,9 @@ def tdur_max(params):
     if fit_P<.5:
         params.tdurFP=True
     elif fit_tdur/fit_P>.1:
-        params.tdurFP=True
+        params.tranDurFP=True
     else:
-        params.tdurFP=False
+        params.tranDurFP=False
         
     return params    
                    

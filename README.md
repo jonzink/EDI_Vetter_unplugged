@@ -1,5 +1,4 @@
 <img src="http://www.jonzink.com/images/ediWhite3.png">
-
 This software identifies false positive transit signals using [TLS](https://github.com/hippke/tls) information and has been simplified from the full [EDI-Vetter](https://github.com/jonzink/EDI-Vetter) algorithm for easy implementation with the [TLS](https://github.com/hippke/tls) output.
 
 <a href="https://zenodo.org/badge/latestdoi/200920137"><img src="https://zenodo.org/badge/200920137.svg" alt="DOI"></a>   
@@ -49,9 +48,9 @@ Here you have the option to provide the quadratic limb darkening values, the tra
 
 Now you can run all of the vetting metrics on the signal
 ```
->>> params=EDI.Go(params)
+>>> params=EDI.Go(params, print=True)
 ```
-Once completed, EDI-Vetter Unplugged will print out a vetting report:
+Once completed, EDI-Vetter Unplugged will print out a vetting report (if "print" is set to True):
 ```
  ___________ _____      _   _      _   _            
 |  ___|  _  \_   _|    | | | |    | | | |           
@@ -64,12 +63,13 @@ Once completed, EDI-Vetter Unplugged will print out a vetting report:
             Vetting Report
 ==========================================
         Flux Contamination : False
+	 Too Many Outliers : False
   Too Many Transits Masked : True
 Odd/Even Transit Variation : False
-      Signal is not Unique : True
+      Signal is Not Unique : True
    Secondary Eclipse Found : False
 Low Transit Phase Coverage : False
- Transit Duration Too Long : False
+Transit Duration Too Long : False
 ==========================================
 Signal is a False Positive : True
 ```
@@ -77,13 +77,14 @@ In this case, the signal was not unique within the light curve and is likely a f
 
 | Output | Description |
 | --- | --- |
-| `fluxContaminationFP` | Was neighboring flux contamination contributing significantly? |
-| `TransMaskFP` | Were the individual transits questionable?  |
-| `even_odd_transit_misfit` | Does the signal deviate significantly between even and odd transits? |
-| `uniquenessFP` | Does the signal appear similar to other signals within the light curve? |
-| `SeFP` | Does the signal appear to have a secondary eclipse? |
+| `fluxContamFP` | Was neighboring flux contamination contributing significantly? |
+| `outlierTranFP` | Was there an abundance of model outliers, indicating a systematic issue?  |
+| `transMaskFP` | Were the individual transits questionable?  |
+| `evenOddFP` | Does the signal deviate significantly between even and odd transits? |
+| `uniqueFP` | Does the signal appear similar to other signals within the light curve? |
+| `secEclipseFP` | Does the signal appear to have a secondary eclipse? |
 | `phaseCoverFP` | Does the signal lack sufficient data to detect a meaningful transit? |
-| `tdurFP` | Is the transit duration too long when compared to the period? |
+| `tranDurFP` | Is the transit duration too long when compared to the period? |
 | `FalsePositive` | Overall, does the signal appear to be a false positive? |
 
 
@@ -91,13 +92,13 @@ In this case, the signal was not unique within the light curve and is likely a f
 ```
 >>> print(params.FalsePositive)
 True
->>> print(params.fluxContaminationFP)
+>>> print(params.fluxContamFP)
 False
 ```
-Alternatively, you can enter information about a potential contaminating star by indicating the photometric aperture size in pixels ("photoAp"), the telescope collected from ("telescope"), the separation in arcseconds from target star and the contaminating source ("delta_dist"), and the difference in visual magnitude between the sources ("delta_mag"). Note: EDI-Vetter Unplugged is currently only applicable with "Kepler", "K2", and "TESS" telescope choices.
+Alternatively, you can enter information about a potential contaminating star by indicating the photometric aperture size in pixels ("photoAp"), the telescope collected from ("telescope"), the separation in arcseconds from target star and the contaminating source ("deltaDist"), and the difference in visual magnitude between the sources ("deltaMag"; i.e., secondary source magnitude - primary source magnitude ). Note: EDI-Vetter Unplugged is currently only applicable with "Kepler", "K2", and "TESS" telescope choices.
 
 ```
->>> params=EDI.Go(params, delta_mag=10, delta_dist=1000, photoAp=25, telescope="TESS")
+>>> params=EDI.Go(params, deltaMag=10, deltaDist=1000, photoAp=25, telescope="TESS")
 ```
 It is important to note this is not the Full EDI-Vetter suite of vetting metrics, but rather a large fraction that could be easily implemented alongside TLS. Thus, EDI-Vetter Unplugged is likely to have a higher completeness, but a lower reliability when compared to the original algorithm. 
 
