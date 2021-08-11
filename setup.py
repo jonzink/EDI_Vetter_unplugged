@@ -21,7 +21,7 @@ except:  # Python 3
     
 setup(name='EDIunplugged',
     version=EDI_VERSIONING,
-    description='An algorithm to identifies false positive transit signals using TLS information',
+    description='An algorithm to identify false positive transit signals using TLS information',
     url='https://github.com/jonzink/EDI_Vetter_unplugged',
     author='Jon Zink',
     author_email='jzink@astro.ucla.edu',
